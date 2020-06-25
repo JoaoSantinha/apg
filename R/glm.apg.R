@@ -83,7 +83,7 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
         vnames = paste("V", seq(n), sep = "")
 
     # Gradient of the smooth part
-    gradG <- switch(family, gaussian = grad.quad, binomial = grad_logistic, survival = grad.rankinglogistic)
+    gradG <- switch(family, gaussian = grad.quad, binomial = grad.logistic, survival = grad.rankinglogistic)
 
     # Prox of the nonsmooth part
     proxH <- switch(penalty, elasticnet = prox.elasticnet, isotonic = prox.isotonic, boundednondecreasing = prox.boundednondecreasing, owl = prox.owl)
