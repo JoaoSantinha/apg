@@ -11,7 +11,7 @@
 #' @examples prox.isotonic(c(1,3,-2,4,5))
 
 
-prox.owl <- function(x, t, opts=list()) {
+prox.owl <- function(x, t=0, opts=list()) {
   v <- x
   
   w <- opts$weights
