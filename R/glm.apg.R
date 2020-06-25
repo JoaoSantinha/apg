@@ -61,7 +61,7 @@
 #' # Isotonic logistic regression with offset, with non-decreasing model of bounded norm
 #' m <- glm.apg(x, y, family="binomial", penalty="boundednondecreasing", lambda=lambda, opts=list(maxnorm=2))
 
-glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=c("elasticnet", "isotonic", "boundednondecreasing"), lambda=1, intercept=TRUE, opts=list()) {
+glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=c("elasticnet", "isotonic", "boundednondecreasing", "owl"), lambda=1, intercept=TRUE, opts=list()) {
     family <- match.arg(family)
     if (family=="survival") {
         intercept=FALSE
@@ -86,7 +86,7 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     gradG <- switch(family, gaussian = grad.quad, binomial = grad_logistic, survival = grad.rankinglogistic)
 
     # Prox of the nonsmooth part
-    proxH <- switch(penalty, elasticnet = prox.elasticnet, isotonic = prox.isotonic, boundednondecreasing = prox.boundednondecreasing)
+    proxH <- switch(penalty, elasticnet = prox.elasticnet, isotonic = prox.isotonic, boundednondecreasing = prox.boundednondecreasing, owl = prox.owl)
 
     o <- opts
 
@@ -107,6 +107,11 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     }
     o$b <- y
     o$lambda <- lambda
+    
+    weights_owl <- seq(ncol(x)-1, 0, -1)
+    weights_owl <- weights_owl * o$lambda2
+    weights_owl <- weights_owl + o$lambda1
+    o$weights <- weights_owl
 
     # Maximize the penalized log-likelihood
     res <- apg(gradG, myproxH, ncol(o$A), o)

@@ -10,6 +10,7 @@ Description: This package implements a general routine for minimization of a
 Depends:
     R (>= 3.2.0),
     Iso
+    phonTools
 License: Artistic-2.0
 LazyData: true
 URL: https://github.com/jpvert/apg
