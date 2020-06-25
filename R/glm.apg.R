@@ -112,7 +112,7 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     o$b <- y
     o$lambda <- lambda
     
-    weights_owl <- seq(ncol(x)-1, 0, -1)
+    weights_owl <- seq(ncol(x)-1, 1, -1)
     weights_owl <- weights_owl * o$lambda2
     weights_owl <- weights_owl + o$lambda1
     o$weights <- weights_owl
