@@ -15,10 +15,12 @@ prox.owl <- function(x, t, opts=list()) {
   v <- x
   
   w <- opts$weights
-  print()
+  
   v.abs <- abs(v)
   sorting <- sort(v.abs, decreasing = TRUE, index.return= TRUE)
   ix <- sorting$ix
+  print(dim(v.abs))
+  print(dim(w))
   v.abs <- v.abs[ix]
   v.abs <- pava(v.abs - w, decreasing = FALSE)
   v.abs[v.abs < 0] <- 0 
