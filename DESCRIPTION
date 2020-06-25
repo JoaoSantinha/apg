@@ -9,7 +9,8 @@ Description: This package implements a general routine for minimization of a
     examples of such functions useful in statistics and machine learning.
 Depends:
     R (>= 3.2.0),
-    Iso,
+    Iso
+Imports:
     phonTools
 License: Artistic-2.0
 LazyData: true
