@@ -10,8 +10,6 @@ Description: This package implements a general routine for minimization of a
 Depends:
     R (>= 3.2.0),
     Iso
-Imports:
-    phonTools
 License: Artistic-2.0
 LazyData: true
 URL: https://github.com/jpvert/apg
@@ -21,5 +19,5 @@ Suggests:
     glmnet
 VignetteBuilder: knitr
 RoxygenNote: 5.0.0
-LinkingTo: Rcpp, RcppArmadillo
-Imports: Rcpp, RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo, phonTools
+Imports: Rcpp, RcppArmadillo, phonTools
