@@ -15,7 +15,7 @@ prox.owl <- function(x, t, opts=list()) {
   v <- x
   
   w <- opts$weights
-  
+  print()
   v.abs <- abs(v)
   sorting <- sort(v.abs, decreasing = TRUE, index.return= TRUE)
   ix <- sorting$ix
@@ -26,7 +26,7 @@ prox.owl <- function(x, t, opts=list()) {
   # undo the sorting
   inv.ix <- phonTools::zeros(ix)
   inv.ix[ix] <- seq(length(v))
-  v_abs <- v_abs[inv.ix]
+  v.abs <- v.abs[inv.ix]
   
-  return (sign(v) * v_abs)
+  return (sign(v) * v.abs)
 }
