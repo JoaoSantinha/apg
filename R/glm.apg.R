@@ -120,7 +120,7 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     weights_owl <- weights_owl + o$lambda1
     print(weights_owl)
     o$weights <- weights_owl
-    print(dim(o$weights))
+    print(length(o$weights))
 
     # Maximize the penalized log-likelihood
     res <- apg(gradG, myproxH, ncol(o$A), o)
