@@ -16,19 +16,19 @@ prox.owl <- function(x, t, opts=list()) {
   
   w <- opts$weights
   
-  v.abs <- abs(v)
-  sorting <- sort(v.abs, decreasing = TRUE, index.return= TRUE)
+  v_abs <- abs(v)
+  sorting <- sort(v_abs, decreasing = TRUE, index.return= TRUE)
   ix <- sorting$ix
-  print(dim(v.abs))
+  print(dim(v_abs))
   print(dim(w))
-  v.abs <- v.abs[ix]
-  v.abs <- pava(v.abs - w, decreasing = FALSE)
-  v.abs[v.abs < 0] <- 0 
+  v_abs <- v_abs[ix]
+  v_abs <- pava(v_abs - w, decreasing = FALSE)
+  v_abs[v_abs < 0] <- 0 
   
   # undo the sorting
   inv.ix <- phonTools::zeros(ix)
   inv.ix[ix] <- seq(length(v))
-  v.abs <- v.abs[inv.ix]
+  v_abs <- v_abs[inv.ix]
   
-  return (sign(v) * v.abs)
+  return (sign(v) * v_abs)
 }
