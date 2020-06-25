@@ -19,5 +19,5 @@ Suggests:
     glmnet
 VignetteBuilder: knitr
 RoxygenNote: 5.0.0
-LinkingTo: Rcpp, RcppArmadillo, phonTools
-Imports: Rcpp, RcppArmadillo, phonTools
+LinkingTo: Rcpp, RcppArmadillo
+Imports: Rcpp, RcppArmadillo
