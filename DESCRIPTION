@@ -8,7 +8,9 @@ Description: This package implements a general routine for minimization of a
     composite function with accelerated proximal gradient, as well as some
     examples of such functions useful in statistics and machine learning.
 Depends:
-    R (>= 3.2.0)
+    R (>= 3.2.0),
+    Iso,
+    phonTools
 License: Artistic-2.0
 LazyData: true
 URL: https://github.com/jpvert/apg
