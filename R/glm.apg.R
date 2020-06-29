@@ -94,13 +94,14 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     if (intercept) {
         centered.x <- scale(x, scale = FALSE)
 	    o <- append(list(A=cbind(centered.x, rep(1,n))), o)
-        if (penalty!="owl") {
-    	    myproxH <- function(u, ...) {
-                return(c(proxH(u[-length(u)], ...), u[length(u)]))
-            }
-        } else {
-            myproxH <- proxH
-        }
+    #     if (penalty!="owl") {
+    # 	    myproxH <- function(u, ...) {
+    #             return(c(proxH(u[-length(u)], ...), u[length(u)]))
+    #         }
+    #     } else {
+    #         myproxH <- proxH
+    #     }
+	    myproxH <- proxH
     } else {
         o <- append(list(A=x), o)
         myproxH <- proxH
