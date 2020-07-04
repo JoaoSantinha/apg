@@ -22,7 +22,7 @@ prox.owl <- function(x, t=0, opts=list()) {
   print(dim(v_abs))
   print(dim(w))
   v_abs <- v_abs[ix]
-  v_abs <- pava(v_abs - w, decreasing = FALSE)
+  v_abs <- pava(v_abs - w, decreasing = TRUE)
   v_abs[v_abs < 0] <- 0 
   
   # undo the sorting
