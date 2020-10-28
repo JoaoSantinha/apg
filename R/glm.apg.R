@@ -93,6 +93,10 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     # If a non-penalized intercept is added, just add a constant column to x and modify the prox operator of the penalty to not touch the coefficient corresponding to the constant column. We also work on the centered matrix x to speed up convergence.
     if (intercept) {
         centered.x <- scale(x, scale = FALSE)
+        # print("length(cbind(centered.x, rep(1,n))))")
+        # print(ncol(cbind(centered.x, rep(1,n))))
+        # print(nrow(cbind(centered.x, rep(1,n))))
+
 	    o <- append(list(A=cbind(centered.x, rep(1,n))), o)
     #     if (penalty!="owl") {
     # 	    myproxH <- function(u, ...) {
@@ -101,7 +105,9 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     #     } else {
     #         myproxH <- proxH
     #     }
-	    myproxH <- proxH
+	    myproxH <- function(u, ...) {
+                    return(c(proxH(u[-length(u)], ...), u[length(u)]))
+                }
     } else {
         o <- append(list(A=x), o)
         myproxH <- proxH
@@ -110,19 +116,57 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
     if (family=="survival") {
         o$comp <- surv_to_pairs(y[,1],y[,2])
     }
-    o$b <- y
+    # print("family")
+    # print(family)
+    if (family=="binomial") {
+        y_num <- as.numeric(as.factor(y))-1
+        y_num[y_num==0] <- -1
+        o$b <- y_num
+    } else {
+        o$b <- y
+    }
+    # print(o)
+
     o$lambda <- lambda
-    
+    # print("penalty")
+    # print(penalty)
     if (penalty=="owl") {
-        weights_owl <- seq(ncol(x), 0, -1)
+        # print("intercept")
+        # print(intercept)
+        # if (intercept) {
+        #     weights_owl <- seq(ncol(x) + 1, 1, -1)
+        # } else {
+        #     weights_owl <- seq(ncol(x), 1, -1)
+        # }
+        if (intercept) {
+            weights_owl <- seq(ncol(x), 1, -1)
+        } else {
+            weights_owl <- seq(ncol(x)-1, 1, -1)
+        }
+        # weights_owl <- seq(ncol(x), 0, -1)
         weights_owl <- weights_owl * o$lambda2
         weights_owl <- weights_owl + o$lambda1
         o$weights <- weights_owl
+        # View(o)
     }
-    
+    # print("nrow(o$A)")
+    # print(nrow(o$A))
+    # print("ncol(o$A)")
+    # print(ncol(o$A))
+    #
+    # print("myproxH")
+    # print(myproxH)
+    # print("ncol(o$A)")
+    # print(ncol(o$A))
+    # print("o")
+    # print(o)
+
+    # print(jajsjgjgja)
     # Maximize the penalized log-likelihood
     res <- apg(gradG, myproxH, ncol(o$A), o)
     w <- res[["x"]]
+    print("w")
+    print(w)
 
     # Return the model (vector of weight in b, intercept in a0)
     if (intercept) {
@@ -131,3 +175,4 @@ glm.apg <- function(x, y, family=c("gaussian", "binomial", "survival"), penalty=
         return(list(b=w, a0=0))
     }
  }
+

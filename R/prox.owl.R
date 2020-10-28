@@ -2,33 +2,50 @@
 #'
 #' Computes the proximal operator of the ordered weighted l1-norm
 #'
-#' @param x The input vector
+#' @param v The input vector
 #'
-#' @return The projection of \code{x} onto the set of nondecreasing vectors,
+#' @return The projection of \code{v} onto the set of nondecreasing vectors,
 #'   obtained by solving an isotonic regression.
 #'
 #' @export
 #' @examples prox.isotonic(c(1,3,-2,4,5))
 
 
-prox.owl <- function(x, t=0, opts=list()) {
-  v <- x
-  
+prox.owl <- function(v, t=0, opts=list()) {
+  # v <- x
+  #   print("V")
+  #   print(length(v))
+  #   print("t")
+  #   print(t)
+  # print("V")
+  # print(v)
+
+  # print("opts$weights")
+  # print(opts$weights)
+  #
+  # print("dim(opts$weights)")
+  # print(length(opts$weights))
   w <- opts$weights
-  
   v_abs <- abs(v)
+
+  # print("dim(v_abs)")
+  # print(length(v_abs))
   sorting <- sort(v_abs, decreasing = TRUE, index.return= TRUE)
   ix <- sorting$ix
-  print(dim(v_abs))
-  print(dim(w))
+
   v_abs <- v_abs[ix]
+  # print("dim(v_abs)")
+  # print(length(v_abs))
+
+  # print(ajsjgahshg)
   v_abs <- pava(v_abs - w, decreasing = TRUE)
-  v_abs[v_abs < 0] <- 0 
-  
+  v_abs[v_abs < 0] <- 0
+
   # undo the sorting
   inv.ix <- phonTools::zeros(ix)
   inv.ix[ix] <- seq(length(v))
   v_abs <- v_abs[inv.ix]
-  
+
   return (sign(v) * v_abs)
 }
+
