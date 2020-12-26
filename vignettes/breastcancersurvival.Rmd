@@ -11,17 +11,19 @@ set.seed(1234)
 mc.cores <- 6
 
 require("compareC")
+require("Biobase")
+require("ballgown")
 # Download some data
-if (!is.element("breastCancerTRANSBIG", installed.packages()[,1])) {
-    source("https://bioconductor.org/biocLite.R")
-    biocLite("breastCancerTRANSBIG")
-}
+# if (!is.element("breastCancerTRANSBIG", installed.packages()[,1])) {
+#     source("https://bioconductor.org/biocLite.R")
+#     biocLite("breastCancerTRANSBIG")
+# }
 require(breastCancerTRANSBIG)
 data(transbig)
 
 # Expression data (predictors)
-x <- t(exprs(transbig))
-y <- pData(transbig)[,c("t.os","e.os")]
+x <- t(Biobase::exprs(transbig))
+y <- ballgown::pData(transbig)[,c("t.os","e.os")]
 
 # Keep only genes with large variations across patients
 nkeep <- 5000
@@ -30,6 +32,7 @@ x <- x[,keep]
 
 # Make train/test splits
 n <- nrow(x)
+n <- nrow(X_trn)
 nrepeats <- 10
 nfolds <- 3
 folds <- list()
@@ -57,7 +60,8 @@ cilist <- mclapply(seq(nexp), function(iexp){
     for (ialpha in seq(nalpha)) {
         for (ilambda in seq(nlambda)) {
             # Fit survival model
-            m <- glm.apg(x[itrain,], y[itrain,], family="survival", lambda=lambda[ilambda], opts=list(alpha=alpha[ialpha]))
+            m <- glm.apg(as.matrix(X_trn[itrain,]), Y_trn[itrain,], family="survival", lambda=lambda[ilambda], opts=list(alpha=alpha[ialpha]))
+            # m <- glm.apg(x[itrain,], y[itrain,], family="survival", lambda=lambda[ilambda], opts=list(alpha=alpha[ialpha]))
 
             # Compute concordance index on test set
             ci[ilambda,ialpha] <- estC(y[itest,1],y[itest,2],x[itest,]%*%m$b)

@@ -13,32 +13,17 @@
 
 prox.owl <- function(v, t=0, opts=list()) {
   # v <- x
-  #   print("V")
-  #   print(length(v))
-  #   print("t")
-  #   print(t)
-  # print("V")
-  # print(v)
-
-  # print("opts$weights")
-  # print(opts$weights)
-  #
-  # print("dim(opts$weights)")
-  # print(length(opts$weights))
+  
   w <- opts$weights
   v_abs <- abs(v)
 
-  # print("dim(v_abs)")
-  # print(length(v_abs))
   sorting <- sort(v_abs, decreasing = TRUE, index.return= TRUE)
   ix <- sorting$ix
 
   v_abs <- v_abs[ix]
-  # print("dim(v_abs)")
-  # print(length(v_abs))
-
+  
   # print(ajsjgahshg)
-  v_abs <- pava(v_abs - w, decreasing = TRUE)
+  v_abs <- Iso::pava(v_abs - w, decreasing = TRUE)
   v_abs[v_abs < 0] <- 0
 
   # undo the sorting

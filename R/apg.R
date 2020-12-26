@@ -71,8 +71,11 @@ apg <- function(grad_f, prox_h, dim_x, opts) {
     # Initialization
     x <- X_INIT
     y <- x
-
     g <- grad_f(y, opts)
+    print("y")
+    print(y)
+    print("g")
+    print(g)
     if (norm_vec(g) < EPS) {
         return(list(x=x,t=0))
     }
@@ -99,17 +102,6 @@ apg <- function(grad_f, prox_h, dim_x, opts) {
 
         x_old <- x
         y_old <- y
-
-        # print("y - t*g")
-        # print(dim(y - t*g))
-        # print(length(y - t*g))
-        # print("y")
-        # print(length(y))
-        # print("g")
-        # print(length(g))
-        # print("t")
-        # print(t)
-        # print(ajsjgahshg)
 
         # The proximal gradient step (update x)
         x <- prox_h( y - t*g, t, opts)

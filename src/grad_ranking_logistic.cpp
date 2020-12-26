@@ -61,10 +61,18 @@ NumericVector grad_ranking_logistic(NumericVector x, List opts) {
     for (int i = 0; i < n; i++){
         SEXP ll=jlist[i];
         Rcpp::NumericVector y(ll);
+//        Rcout << "The value of ll \n";
+//        Rf_PrintValue(ll);
+//        Rcout << "After the value of ll1 \n";
+//        Rf_PrintValue(jlist[i]);
+//        Rcout << "After the value of ll2 \n";
+//        Rf_PrintValue(y);
+//        Rcout << "After the value of ll3 \n";
         N += y.size(); // total number of pairs
         for (int j=0; j<y.size(); j++){
 //            tmp = 1/(1+exp(s[y[j]-1] - s[i]));
-            tmp = 1/(1+ s[y[j]-1] / s[i]);
+//            tmp = 1/(1+ s[y[j]-1] / s[i]);
+            tmp = 1/(1+ s[y[j]-1]);
             weight[i] +=tmp;
             weight[y[j]-1] -=tmp;
         }
@@ -77,7 +85,9 @@ NumericVector grad_ranking_logistic(NumericVector x, List opts) {
         }
         grad[j] /= N;
     }
-
+    
+//    Rf_PrintValue(grad);
+    
     grad_mat(_, 0) = grad;
 
     return grad_mat;
